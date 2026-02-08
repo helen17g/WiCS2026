@@ -1,7 +1,6 @@
 import React from "react";
 import { theme } from "../../app/theme";
 import { useAppStore } from "../../state/store";
-import MLDemoComponent from "./MLDemoComponent";
 
 /**
  * Reports Inbox (Out-of-Field Organizer)
@@ -47,233 +46,6 @@ function fmt(ts: string) {
     return ts;
   }
 }
-
-/* ---------- Styles ---------- */
-const styles: Record<string, React.CSSProperties> = {
-  headerCard: {
-    padding: 12,
-    borderRadius: 16,
-    border: `1px solid ${theme.border}`,
-    background: theme.surface,
-  },
-  badgeInfo: {
-    padding: "6px 10px",
-    borderRadius: 999,
-    border: `1px solid ${theme.border}`,
-    background: theme.bg,
-    color: theme.text,
-    fontWeight: 900,
-    fontSize: 12,
-    whiteSpace: "nowrap",
-  },
-  controlsCard: {
-    padding: 12,
-    borderRadius: 16,
-    border: `1px solid ${theme.border}`,
-    background: theme.surface,
-  },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "minmax(280px, 380px) 1fr",
-    gap: 12,
-    alignItems: "start",
-  },
-  panel: {
-    borderRadius: 18,
-    border: `1px solid ${theme.border}`,
-    background: theme.surface,
-    padding: 14,
-    boxShadow: "0 6px 18px rgba(17, 24, 39, 0.06)",
-  },
-  panelTitle: {
-    fontWeight: 950,
-    color: theme.text,
-    marginBottom: 10,
-    fontSize: 14,
-  },
-  input: {
-    padding: "10px 12px",
-    borderRadius: 12,
-    border: `1px solid ${theme.border}`,
-    background: theme.bg,
-    color: theme.text,
-    fontWeight: 800,
-    outline: "none",
-    width: "100%",
-  },
-  listItem: {
-    textAlign: "left",
-    borderRadius: 14,
-    border: `1px solid ${theme.border}`,
-    background: theme.bg,
-    padding: 12,
-    cursor: "pointer",
-  },
-  empty: {
-    padding: 12,
-    borderRadius: 14,
-    border: `1px solid ${theme.border}`,
-    background: theme.bg,
-    color: theme.muted,
-    fontWeight: 800,
-  },
-  metaText: {
-    color: theme.muted,
-    fontWeight: 800,
-    fontSize: 12,
-  },
-  block: {
-    borderRadius: 14,
-    border: `1px solid ${theme.border}`,
-    background: theme.bg,
-    padding: 12,
-  },
-  blockLabel: {
-    color: theme.muted,
-    fontWeight: 900,
-    fontSize: 12,
-    marginBottom: 6,
-  },
-  blockBody: {
-    color: theme.text,
-    fontWeight: 800,
-    fontSize: 14,
-    lineHeight: 1.35,
-  },
-  primaryBtn: {
-    background: theme.blue,
-    color: theme.surface,
-    border: `1px solid ${theme.blue}`,
-    padding: "10px 14px",
-    borderRadius: 12,
-    fontWeight: 900,
-    cursor: "pointer",
-    whiteSpace: "nowrap",
-  },
-  secondaryBtn: {
-    background: theme.surface,
-    color: theme.text,
-    border: `1px solid ${theme.border}`,
-    padding: "10px 14px",
-    borderRadius: 12,
-    fontWeight: 900,
-    cursor: "pointer",
-    whiteSpace: "nowrap",
-  },
-
-  tableWrap: {
-    width: "100%",
-    overflowX: "auto",
-    borderRadius: 14,
-    border: `1px solid ${theme.border}`,
-  },
-
-  table: { width: "100%", borderCollapse: "collapse", background: theme.surface },
-
-  th: {
-    textAlign: "left",
-    padding: "10px 12px",
-    fontSize: 12,
-    color: theme.muted,
-    fontWeight: 900,
-    borderBottom: `1px solid ${theme.border}`,
-    background: theme.bg,
-    whiteSpace: "nowrap",
-  },
-
-  td: {
-    padding: "12px",
-    fontSize: 14,
-    color: theme.text,
-    borderBottom: `1px solid ${theme.border}`,
-    verticalAlign: "top",
-  },
-
-  tdStrong: {
-    padding: "12px",
-    fontSize: 14,
-    color: theme.text,
-    borderBottom: `1px solid ${theme.border}`,
-    fontWeight: 900,
-    verticalAlign: "top",
-  },
-
-  tdMuted: { padding: "12px", fontSize: 14, color: theme.muted },
-
-  note: { marginTop: 10, fontSize: 12, color: theme.muted, fontWeight: 700 },
-
-  mlSection: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
-    gap: 12,
-  },
-
-  liveCameraCard: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    padding: 28,
-    borderRadius: 18,
-    border: `2px solid ${theme.border}`,
-    background: theme.surface,
-    boxShadow: "0 6px 18px rgba(17, 24, 39, 0.06)",
-    cursor: "pointer",
-    textAlign: "center",
-    minHeight: 180,
-    transition: "border-color 0.2s, box-shadow 0.2s",
-  },
-
-  liveCameraIcon: { fontSize: 42 },
-
-  liveCameraTitle: {
-    fontWeight: 900,
-    fontSize: 18,
-    color: theme.text,
-  },
-
-  liveCameraSub: {
-    fontSize: 13,
-    color: theme.muted,
-    fontWeight: 700,
-    maxWidth: 280,
-  },
-
-  liveCameraPanel: {
-    borderRadius: 18,
-    border: `1px solid ${theme.border}`,
-    background: theme.surface,
-    padding: 14,
-    boxShadow: "0 6px 18px rgba(17, 24, 39, 0.06)",
-  },
-
-  liveCameraPanelHeader: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 12,
-  },
-
-  liveCameraPanelTitle: {
-    fontWeight: 900,
-    color: theme.text,
-    fontSize: 14,
-  },
-
-  closeBtn: {
-    background: "transparent",
-    color: theme.muted,
-    border: "none",
-    padding: "6px 10px",
-    borderRadius: 8,
-    fontWeight: 700,
-    cursor: "pointer",
-    fontSize: 12,
-  },
-};
-
-
 
 export default function ReportsPage() {
   const events = useAppStore((s) => s.events);
@@ -548,20 +320,123 @@ export default function ReportsPage() {
           )}
         </div>
       </div>
-
-      {/* ML Demo Section */}
-      <div style={styles.mlSection}>
-        <MLDemoComponent />
-      </div>
-
-      {/* Activity Log Panel */}
-      <div style={styles.panel}>
-        <div style={styles.panelTitle}>Activity Log</div>
-        <div style={styles.empty}>No activity logged yet.</div>
-      </div>
     </div>
   );
 }
+
+/* ---------- Styles ---------- */
+const styles: Record<string, React.CSSProperties> = {
+  headerCard: {
+    padding: 12,
+    borderRadius: 16,
+    border: `1px solid ${theme.border}`,
+    background: theme.surface,
+  },
+  badgeInfo: {
+    padding: "6px 10px",
+    borderRadius: 999,
+    border: `1px solid ${theme.border}`,
+    background: theme.bg,
+    color: theme.text,
+    fontWeight: 900,
+    fontSize: 12,
+    whiteSpace: "nowrap",
+  },
+  controlsCard: {
+    padding: 12,
+    borderRadius: 16,
+    border: `1px solid ${theme.border}`,
+    background: theme.surface,
+  },
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "minmax(280px, 380px) 1fr",
+    gap: 12,
+    alignItems: "start",
+  },
+  panel: {
+    borderRadius: 18,
+    border: `1px solid ${theme.border}`,
+    background: theme.surface,
+    padding: 14,
+    boxShadow: "0 6px 18px rgba(17, 24, 39, 0.06)",
+  },
+  panelTitle: {
+    fontWeight: 950,
+    color: theme.text,
+    marginBottom: 10,
+    fontSize: 14,
+  },
+  input: {
+    padding: "10px 12px",
+    borderRadius: 12,
+    border: `1px solid ${theme.border}`,
+    background: theme.bg,
+    color: theme.text,
+    fontWeight: 800,
+    outline: "none",
+    width: "100%",
+  },
+  listItem: {
+    textAlign: "left",
+    borderRadius: 14,
+    border: `1px solid ${theme.border}`,
+    background: theme.bg,
+    padding: 12,
+    cursor: "pointer",
+  },
+  empty: {
+    padding: 12,
+    borderRadius: 14,
+    border: `1px solid ${theme.border}`,
+    background: theme.bg,
+    color: theme.muted,
+    fontWeight: 800,
+  },
+  metaText: {
+    color: theme.muted,
+    fontWeight: 800,
+    fontSize: 12,
+  },
+  block: {
+    borderRadius: 14,
+    border: `1px solid ${theme.border}`,
+    background: theme.bg,
+    padding: 12,
+  },
+  blockLabel: {
+    color: theme.muted,
+    fontWeight: 900,
+    fontSize: 12,
+    marginBottom: 6,
+  },
+  blockBody: {
+    color: theme.text,
+    fontWeight: 800,
+    fontSize: 14,
+    lineHeight: 1.35,
+  },
+  primaryBtn: {
+    background: theme.blue,
+    color: theme.surface,
+    border: `1px solid ${theme.blue}`,
+    padding: "10px 14px",
+    borderRadius: 12,
+    fontWeight: 900,
+    cursor: "pointer",
+    whiteSpace: "nowrap",
+  },
+  secondaryBtn: {
+    background: theme.surface,
+    color: theme.text,
+    border: `1px solid ${theme.border}`,
+    padding: "10px 14px",
+    borderRadius: 12,
+    fontWeight: 900,
+    cursor: "pointer",
+    whiteSpace: "nowrap",
+  },
+};
 
 function severityPill(sev: Severity): React.CSSProperties {
   const bg =

@@ -1,36 +1,20 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
-import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
-
+import { initializeApp, getApp, getApps } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFunctions } from "firebase/functions";
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  apiKey: "AIzaSyAgnDCVTEAQvTP8bUKXcI3x0VroKhEIkM4",
+  authDomain: "wics-hack26.firebaseapp.com",
+  projectId: "wics-hack26",
+  storageBucket: "wics-hack26.firebasestorage.app",
+  messagingSenderId: "500186983246",
+  appId: "1:500186983246:web:1d516c3b038dd2200a4c1f",
+  measurementId: "G-S6111ENT0H"
 };
 
-const app = initializeApp(firebaseConfig);
+export const firebaseApp =
+  getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const functions = getFunctions(app, "us-central1");
-
-// Connect to emulators in development
-if (import.meta.env.DEV) {
-  try {
-    connectAuthEmulator(auth, "http://localhost:9199", { disableWarnings: true });
-  } catch {}
-
-  try {
-    connectFirestoreEmulator(db, "localhost", 8088);
-  } catch {}
-
-  try {
-    connectFunctionsEmulator(functions, "localhost", 5005);
-  } catch {}
-}
-
-export default app;
+export const auth = getAuth(firebaseApp);
+export const functions = getFunctions(firebaseApp);
