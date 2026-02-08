@@ -8,6 +8,18 @@ import { FieldValue } from "firebase-admin/firestore";
 
 import { db } from "./config/firebaseAdmin";
 
+// Health check (v2)
+
+import * as tf from "@tensorflow/tfjs-node";
+import * as cocoSsd from "@tensorflow-models/coco-ssd";
+import sharp from "sharp";
+
+
+import * as tf from "@tensorflow/tfjs-node";
+import * as cocoSsd from "@tensorflow-models/coco-ssd";
+import sharp from "sharp";
+
+
 <<<<<<< HEAD
 // Health check (v2)
 =======
@@ -87,13 +99,9 @@ export const setAccountType = onCall(async (request) => {
   return { ok: true };
 });
 
-<<<<<<< HEAD
-// 1) Create event
-=======
 // ----------------------------------------------------
 // 1) Create event
 // ----------------------------------------------------
->>>>>>> 6a4aa5553558af8b7463bf889c73ee342ea7f2f4
 export const createEvent = onCall(async (request) => {
   const data = (request.data ?? {}) as any;
   const auth = request.auth;
@@ -129,13 +137,10 @@ export const createEvent = onCall(async (request) => {
   return { eventId: ref.id };
 });
 
-<<<<<<< HEAD
-// 2) Create invite
-=======
+
 // ----------------------------------------------------
 // 2) Create invite
 // ----------------------------------------------------
->>>>>>> 6a4aa5553558af8b7463bf889c73ee342ea7f2f4
 export const createInvite = onCall(async (request) => {
   const data = (request.data ?? {}) as any;
   const auth = request.auth;
@@ -187,13 +192,7 @@ export const createInvite = onCall(async (request) => {
   return { code };
 });
 
-<<<<<<< HEAD
 // 3) Join event
-=======
-// ----------------------------------------------------
-// 3) Join event
-// ----------------------------------------------------
->>>>>>> 6a4aa5553558af8b7463bf889c73ee342ea7f2f4
 export const joinWithCode = onCall(async (request) => {
   const data = (request.data ?? {}) as any;
   const auth = request.auth;
@@ -206,7 +205,7 @@ export const joinWithCode = onCall(async (request) => {
   const snap = await db().collection("inviteCodes").doc(code).get();
   if (!snap.exists) throw new HttpsError("not-found", "Invalid code.");
 
-<<<<<<< HEAD
+
   const { eventId, inviteId, role, active } = snap.data() as any;
   if (!active) throw new HttpsError("failed-precondition", "Invite is inactive.");
 
@@ -224,7 +223,6 @@ export const joinWithCode = onCall(async (request) => {
     .collection("invites")
     .doc(inviteId)
     .update({ uses: FieldValue.increment(1) });
-=======
   const inviteData = snap.data() as
     | { eventId: string; inviteId: string; role: "attendee" | "organizer"; active: boolean }
     | undefined;
@@ -242,26 +240,143 @@ export const joinWithCode = onCall(async (request) => {
   await db().collection("events").doc(eventId).collection("invites").doc(inviteId).update({
     uses: FieldValue.increment(1),
   });
->>>>>>> 6a4aa5553558af8b7463bf889c73ee342ea7f2f4
 
   return { eventId, role };
 });
 
-<<<<<<< HEAD
+
+
+// Local COCO-SSD model (cached)
+let cocoModel: any = null;
+
+async function getCocoModel() {
+  if (!cocoModel) {
+    console.log("🔄 Loading COCO-SSD model (first time)...");
+    cocoModel = await cocoSsd.load();
+    console.log("✅ COCO-SSD model ready");
+  }
+  return cocoModel;
+}
 // Other routes
 export { createReportFn, claimReportFn, resolveReportFn, postReportMessageFn } from "./reports/reports.routes";
 export { createTestEventFn } from "./testing/createTestEvent";
 export { setUserRoleTestFn } from "./testing/testAdmin.routes";
-=======
-// ----------------------------------------------------
-// Other routes (re-exports)
-// ----------------------------------------------------
+
+
+
+// Local COCO-SSD model (cached)
+let cocoModel: any = null;
+
+async function getCocoModel() {
+  if (!cocoModel) {
+    console.log("🔄 Loading COCO-SSD model (first time)...");
+    cocoModel = await cocoSsd.load();
+    console.log("✅ COCO-SSD model ready");
+  }
+  return cocoModel;
+}
+
+// Other routes
 export { createReportFn, claimReportFn, resolveReportFn, postReportMessageFn } from "./reports/reports.routes";
 export { createTestEventFn } from "./testing/createTestEvent";
 export { setUserRoleTestFn } from "./testing/testAdmin.routes";
 
 // ----------------------------------------------------
-// Groups (NEW)
+// Vision Analysis (Crowd + Flashlight Detection)
+// Uses Local TensorFlow + COCO-SSD (NO API CALLS)
+// Analyzes JPG frame instantly
 // ----------------------------------------------------
+export const analyzeVisionFrame = onCall(async (request) => {
+  const data = (request.data ?? {}) as any;
+  const { imageBase64 } = data;
+
+  if (!imageBase64 || typeof imageBase64 !== "string") {
+    throw new HttpsError("invalid-argument", "imageBase64 required");
+  }
+
+  try {
+    console.log("🔄 Analyzing frame with local COCO-SSD...");
+    const startTime = Date.now();
+
+    // Convert base64 to buffer
+    const imageBuffer = Buffer.from(imageBase64, "base64");
+
+    // Resize image for faster processing (416x416)
+    const resizedData = await sharp(imageBuffer)
+      .resize(416, 416, { fit: "inside", withoutEnlargement: true })
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+
+    // Create tensor from image
+    const imageTensor = tf.tensor3d(new Uint8Array(resizedData.data), [
+      resizedData.info.height,
+      resizedData.info.width,
+      resizedData.info.channels,
+    ]);
+
+    // Load model and detect
+    const model = await getCocoModel();
+    const detections = await model.detect(imageTensor);
+
+    // Count only "person" class detections
+    const people = detections.filter((d: any) => d.class === "person");
+    const crowdCount = people.length;
+
+    console.log(`✅ Found ${crowdCount} people in ${Date.now() - startTime}ms`);
+
+    // FLASHLIGHT DETECTION - check pixel brightness
+    const pixelData = new Uint8Array(resizedData.data);
+    let brightPixels = 0;
+    
+    // Check every pixel (RGB = 3 bytes per pixel)
+    for (let i = 0; i < pixelData.length; i += 3) {
+      const r = pixelData[i];
+      const g = pixelData[i + 1];
+      const b = pixelData[i + 2];
+      
+      // Brightness: standard luma formula
+      const brightness = r * 0.299 + g * 0.587 + b * 0.114;
+      
+      // Very bright pixels = flashlight
+      if (brightness > 220) {
+        brightPixels++;
+      }
+    }
+
+    const totalPixels = pixelData.length / 3;
+    const brightRatio = totalPixels > 0 ? brightPixels / totalPixels : 0;
+    const flashlightDetected = brightRatio > 0.005; // >0.5% bright = flashlight
+    const flashlightIntensity = Math.min(100, Math.round(brightRatio * 1000));
+
+    console.log(
+      `🔦 Flashlight: ${flashlightDetected ? "YES" : "no"} (intensity: ${flashlightIntensity})`
+    );
+
+    // Cleanup tensors
+    imageTensor.dispose();
+
+    return {
+      success: true,
+      crowdCount,
+      flashlightDetected,
+      flashlightIntensity,
+      detections: people.map((d: any) => ({
+        class: d.class,
+        score: d.score,
+      })),
+      model: "COCO-SSD (Local TensorFlow)",
+      processingTime: Date.now() - startTime,
+      timestamp: new Date().toISOString(),
+    };
+  } catch (error: any) {
+    console.error("❌ Vision analysis error:", error.message);
+    throw new HttpsError("internal", `Analysis failed: ${error.message}`);
+  }
+});
+
+// Other routes
+export { createReportFn, claimReportFn, resolveReportFn, postReportMessageFn } from "./reports/reports.routes";
+export { createTestEventFn } from "./testing/createTestEvent";
+export { setUserRoleTestFn } from "./testing/testAdmin.routes";
+
 export { createGroup, joinGroupWithCode, regenerateGroupCode } from "./groups/groups.routes";
->>>>>>> 6a4aa5553558af8b7463bf889c73ee342ea7f2f4
