@@ -1,6 +1,7 @@
 import React from "react";
 import { theme } from "../../app/theme";
 import { useAppStore } from "../../state/store";
+import MLDemoComponent from "./MLDemoComponent";
 
 type ReportItem = {
   id: string;
@@ -159,8 +160,10 @@ export default function ReportsPage() {
         </div>
       </div>
 
+      <MLDemoComponent />
+
       <div style={styles.panel}>
-        <div style={styles.panelTitle}>Activity Log (MVP)</div>
+        <div style={styles.panelTitle}>Activity Log</div>
 
         <div style={styles.tableWrap}>
           <table style={styles.table}>
