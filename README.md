@@ -1,7 +1,9 @@
+<img width="144" height="144" alt="image" src="https://github.com/user-attachments/assets/339b11cc-995c-4df0-977a-ae1f94c1dbd8" />
 # CrowdFest
- <img width="144" height="144" alt="image" src="https://github.com/user-attachments/assets/339b11cc-995c-4df0-977a-ae1f94c1dbd8" />
- 
- video demo: https://www.youtube.com/watch?v=DoWaxOcUQmM 
+
+# Video Demo
+https://www.youtube.com/watch?v=DoWaxOcUQmM 
+
 # Pictures 
 <img width="773" height="400" alt="image" src="https://github.com/user-attachments/assets/1559fde9-7388-4ca4-8a03-89bbd46d5fdd" />
 <img width="228" height="333" alt="image" src="https://github.com/user-attachments/assets/5cfcd753-9724-47f3-874a-d6b0ca0a8a68" />
