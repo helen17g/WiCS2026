@@ -6,10 +6,10 @@
 CrowdFest is a festival safety platform designed to protect attendees and support organizers during large-scale events. The system enables real-time crowd monitoring, attendee safety reporting, and intelligent alerts to prevent dangerous situations such as crowd surges, medical emergencies, and harassment. Attendees use a mobile app to access events, view crowd density, receive safety notifications, and report incidents, while organizers use mobile and web tools to manage events, monitor risks, respond to reports, and coordinate safety actions efficiently.
 
 # Team
-Anshu Siripurapu - Mobile
-Angel Ogungbemi - Frontend UI/UX
-Helen Gordon - Backend
-Janine Jimenez - AI/CV (Computer Vision)
+- Anshu Siripurapu - Mobile
+- Angel Ogungbemi - Frontend UI/UX
+- Helen Gordon - Backend
+- Janine Jimenez - AI/CV (Computer Vision)
 
 # Users and Features:
 Attendees
@@ -33,7 +33,7 @@ Off-Field (Admin) Team:
 - Alerts monitoring + assigning
 - Notifs for crowd spikes/emergencies
 
-# Video Demo
+# Video Demo - Off Field (Admin) Team
 https://www.youtube.com/watch?v=DoWaxOcUQmM 
 
 # Pictures 
@@ -43,6 +43,6 @@ https://www.youtube.com/watch?v=DoWaxOcUQmM
 <img width="226" height="350" alt="image" src="https://github.com/user-attachments/assets/556bcaec-dcb8-4541-87c1-6484319ad7af" />
 
 # Future Implementations:
-- Friend circles to track real-time location of friends
+- Collect attendee location and information to track where friends are located and easier access
 - Utilize faster technologies to account for wide usage
 - Improve CV Model to be trained on other indicators of help such as waving hands
