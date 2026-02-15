@@ -43,6 +43,6 @@ https://www.youtube.com/watch?v=DoWaxOcUQmM
 <img width="226" height="350" alt="image" src="https://github.com/user-attachments/assets/556bcaec-dcb8-4541-87c1-6484319ad7af" />
 
 # Future Implementations:
-- Collect attendee location and information to track where friends are located and easier access
+- Collect attendee location and information to allow friends to find eachother easily
 - Utilize faster technologies to account for wide usage
 - Improve CV Model to be trained on other indicators of help such as waving hands
